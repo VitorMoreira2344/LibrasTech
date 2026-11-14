@@ -158,6 +158,25 @@ img { max-width: 100%; }
   50% { transform: translate(12px, -8px) rotate(2deg); }
 }*/
 
+/* Vídeo das mãos: dois vídeos empilhados (normal e invertido) */
+.hands-video {
+  position: relative;
+  width: min(90%, 520px);
+  aspect-ratio: 452 / 640;
+}
+.hands-clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  visibility: hidden;
+}
+.hands-clip.is-visible { visibility: visible; }
+@media (max-width: 700px) {
+  .hands-video { width: min(70%, 300px); }
+}
+
 /* Mãos fazendo 2 sinais em Libras, em sequência (ciclo de 8s):
    1) APLAUSO (0% a 40%): mãos abertas no alto, girando os pulsos.
    2) TCHAU   (50% a 90%): mãos abertas balançando de um lado para o outro.
@@ -651,10 +670,7 @@ img { max-width: 100%; }
     grid-template-columns: 220px 1fr;
     gap: 25px;
   }
-  .about-graphic {
-    transform: scale(.8);
-    transform-origin: center;
-  }
+  .about-graphic { zoom: .8; }
   .dashboard-layout {
     grid-template-columns: 220px minmax(0, 1fr);
   }
@@ -765,7 +781,7 @@ img { max-width: 100%; }
     padding: 65px 24px;
     grid-template-columns: 1fr;
   }
-  .about-graphic { display: none; }
+  .about-graphic { zoom: .75; margin: 0 auto 20px; }
   .demo-section { padding: 55px 20px 70px; }
   .video-frame, .video-frame video { min-height: 220px; }
   .dashboard-layout { display: block; }
@@ -856,4 +872,76 @@ img { max-width: 100%; }
         opacity: 1;
         transform: translateY(0);
     }
+}
+/* Cabeçalho da página inicial: fica entre as mãos e o "Conheça o curso"
+   e, depois que a página passa por ele, fica fixo no topo da tela. */
+.site-header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+body:has(.site-header-sticky) { background: var(--cream); }
+body:has(.site-header-sticky) section[id] { scroll-margin-top: 88px; }
+
+/* Sobre: animação das 4 bolas --------------------------------------*/
+.about-graphic .bubble { animation: bolhaFlutua 5s ease-in-out infinite; }
+.about-graphic .bubble-two   { animation-delay: -1.2s; }
+.about-graphic .bubble-three { animation-delay: -2.5s; }
+.about-graphic .bubble-four  { animation-delay: -3.7s; }
+@keyframes bolhaFlutua {
+  50% { transform: translateY(-10px) scale(1.04); }
+}
+
+/* ao clicar num tópico: bolas giram e se juntam, e o ícone aparece no meio */
+.about-graphic.is-active { animation: bolhasGiram 1s ease-in-out; }
+.about-graphic.is-active .bubble { animation: bolhasPulsam 1s ease-in-out, bolhaFlutua 5s ease-in-out 1s infinite; }
+@keyframes bolhasGiram {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes bolhasPulsam {
+  50% { transform: scale(.72); }
+}
+.about-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 92px;
+  height: 92px;
+  margin: -46px 0 0 -46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: white;
+  color: var(--blue);
+  font-size: 2.6rem;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+  z-index: 2;
+}
+.about-graphic.is-active .about-icon { animation: iconeAparece .6s ease-out .55s forwards; }
+@keyframes iconeAparece {
+  0%   { opacity: 0; transform: scale(0) rotate(-90deg); }
+  70%  { opacity: 1; transform: scale(1.15) rotate(8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.about-topic {
+  padding: 14px 18px;
+  margin-left: -18px;
+  border-left: 4px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background .25s, border-color .25s;
+}
+.about-topic:hover { background: rgba(65, 69, 201, .05); }
+.about-topic:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.about-topic.is-active {
+  background: rgba(65, 69, 201, .07);
+  border-left-color: var(--blue);
+}
+@media (max-width: 700px) {
+  .about-topic { margin-left: 0; }
 }
