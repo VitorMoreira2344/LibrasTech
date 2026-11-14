@@ -12,6 +12,26 @@
 </head>
 <body>
 
+<header class="site-header">
+  <a class="site-brand" href="../src/index.html" aria-label="LibrasTech - página inicial">
+    <img src="../img/logoInteira.png" class="navbar-logo" alt="LibrasTech">
+  </a>
+
+  <button class="menu-toggle" type="button"
+    aria-label="Abrir menu" aria-expanded="false"
+    onclick="document.querySelector('.site-nav').classList.toggle('is-open'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') !== 'true'); this.querySelector('i').classList.toggle('bi-x-lg')">
+    <i class="bi bi-list"></i>
+  </button>
+
+  <nav class="site-nav">
+    <a href="../src/sobre.html">Sobre</a>
+    <a href="../src/queroAprender.html">Quero aprender</a>
+    <a class="profile-link" href="../src/login.html" aria-label="Entrar">
+      <i class="bi bi-person-circle"></i>
+    </a>
+  </nav>
+</header>
+
 <section class="landing" id="Landingpage">
   <div class="landing-copy">
     <a class="landing-wordmark" href="#Landingpage">LibrasTech</a>
@@ -32,26 +52,6 @@
 </section>
 
 <section id="home" class="home-section">
-
-  <header class="site-header">
-    <a class="site-brand" href="../src/index.html" aria-label="LibrasTech - página inicial">
-      <img src="../img/logoInteira.png" class="navbar-logo" alt="LibrasTech">
-    </a>
-
-    <button class="menu-toggle" type="button"
-      aria-label="Abrir menu" aria-expanded="false"
-      onclick="document.querySelector('.site-nav').classList.toggle('is-open'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') !== 'true')">
-      <i class="bi bi-list"></i>
-    </button>
-
-    <nav class="site-nav">
-      <a href="../src/sobre.html">Sobre</a>
-      <a href="../src/queroAprender.html">Quero aprender</a>
-      <a class="profile-link" href="../src/login.html" aria-label="Entrar">
-        <i class="bi bi-person-circle"></i>
-      </a>
-    </nav>
-  </header>
 
   <div class="home-content">
     <div>

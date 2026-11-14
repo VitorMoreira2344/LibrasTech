@@ -19,7 +19,7 @@
 
   <button class="menu-toggle" type="button"
     aria-label="Abrir menu" aria-expanded="false"
-    onclick="document.querySelector('.site-nav').classList.toggle('is-open'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') !== 'true')">
+    onclick="document.querySelector('.site-nav').classList.toggle('is-open'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') !== 'true'); this.querySelector('i').classList.toggle('bi-x-lg')">
     <i class="bi bi-list"></i>
   </button>
 
