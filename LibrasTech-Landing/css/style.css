@@ -118,6 +118,16 @@ img { max-width: 100%; }
   position: relative;
   overflow: hidden;
   background: linear-gradient(150deg, #bac7ed, #4b80bf);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+}
+.landing-art .hand {
+  width: 46%;
+  max-width: 308px;
+  height: auto;
+  position: relative;
 }
 .hands-background {
   position: absolute;
@@ -147,6 +157,39 @@ img { max-width: 100%; }
 @keyframes floatYellow {
   50% { transform: translate(12px, -8px) rotate(2deg); }
 }*/
+
+/* Mãos fazendo 2 sinais em Libras, em sequência (ciclo de 8s):
+   1) APLAUSO (0% a 40%): mãos abertas no alto, girando os pulsos.
+   2) TCHAU   (50% a 90%): mãos abertas balançando de um lado para o outro.
+   Entre um sinal e outro as mãos param um instante. */
+.hand-blue,
+.hand-yellow {
+  transform-origin: 45% 92%; /* ponto do pulso na imagem */
+  animation: sinaisLibrasAzul 8s ease-in-out infinite;
+  will-change: transform;
+}
+.hand-yellow { animation-name: sinaisLibrasAmarela; }
+
+@keyframes sinaisLibrasAzul {
+  /* parado */
+  0%, 40%, 50%, 90%, 100% { transform: perspective(700px) rotateY(0deg) rotate(0deg); }
+  /* aplauso */
+  4%, 12%, 20%, 28%, 36%  { transform: perspective(700px) rotateY(-42deg) rotate(-8deg); }
+  8%, 16%, 24%, 32%       { transform: perspective(700px) rotateY(42deg) rotate(8deg); }
+  /* tchau */
+  55%, 65%, 75%, 85%      { transform: perspective(700px) rotateY(0deg) rotate(-12deg); }
+  60%, 70%, 80%           { transform: perspective(700px) rotateY(0deg) rotate(12deg); }
+}
+@keyframes sinaisLibrasAmarela {
+  0%, 40%, 50%, 90%, 100% { transform: perspective(700px) rotateY(0deg) rotate(0deg); }
+  4%, 12%, 20%, 28%, 36%  { transform: perspective(700px) rotateY(42deg) rotate(8deg); }
+  8%, 16%, 24%, 32%       { transform: perspective(700px) rotateY(-42deg) rotate(-8deg); }
+  55%, 65%, 75%, 85%      { transform: perspective(700px) rotateY(0deg) rotate(-12deg); }
+  60%, 70%, 80%           { transform: perspective(700px) rotateY(0deg) rotate(12deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hand-blue, .hand-yellow { animation: none; }
+}
 .button {
   display: inline-flex;
   justify-content: center;
@@ -415,6 +458,18 @@ img { max-width: 100%; }
   margin: 0;
 }
 
+.about-graphic {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: auto;
+}
+.demo-section {
+  max-width: 1120px;
+  margin: auto;
+  padding: 20px 28px 100px;
+  text-align: center;
+}
 .demo-section > p {
   max-width: 850px;
   margin: 0 auto 32px;
@@ -615,21 +670,50 @@ img { max-width: 100%; }
     height: 36px;
     max-width: 160px;
   }
-  .menu-toggle { display: block; }
+  .menu-toggle {
+    display: block;
+    transition: transform .3s ease;
+  }
+  .menu-toggle[aria-expanded="true"] { transform: rotate(90deg); }
   .site-nav {
-    display: none;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease, visibility 0s linear .3s;
     position: absolute;
-    top: 100%;
-    left: 12px;
-    right: 12px;
+    top: calc(100% - 28px);
+    left: 0;
+    right: 0;
+    z-index: -1;
+    padding-top: 46px !important;
     padding: 18px;
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
-    border-radius: 0 0 18px 18px;
+    border-radius: 0 0 28px 28px;
     background: var(--blue);
   }
-  .site-nav.is-open { display: flex; }
+  .site-nav.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity .3s ease, transform .3s ease, visibility 0s;
+  }
+  .site-nav a {
+    padding: 8px 4px;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  .site-nav.is-open a { opacity: 1; transform: none; }
+  .site-nav.is-open a:nth-child(2) { transition-delay: .06s; }
+  .site-nav.is-open a:nth-child(3) { transition-delay: .12s; }
+  .about-intro { gap: 0; }
+  .demo-section { padding: 0 20px 70px; }
+  .landing-copy { min-height: auto; }
   .landing {
     min-height: auto;
     grid-template-columns: 1fr;
@@ -643,9 +727,15 @@ img { max-width: 100%; }
     font-size: clamp(2.5rem, 11vw, 3.7rem);
   }
   .landing-art { min-height: 42vh; }
-  .hand { width: 78%; }
-  .hand-blue { left: -3%; top: -10%; }
-  .hand-yellow { right: -2%; bottom: -16%; }
+  .landing-art {
+    min-height: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6%;
+  }
+  .hand { width: 38%; max-width: 180px; height: auto; position: relative; }
   .home-content {
     min-height: auto;
     padding: 75px 26px;
@@ -716,7 +806,7 @@ img { max-width: 100%; }
 @media (max-width: 420px) {
   .sidebar {
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 6px 10px;
   }
   .sidebar-brand {
     width: 100%;
