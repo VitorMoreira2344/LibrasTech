@@ -41,25 +41,26 @@
       <span class="bubble bubble-two"></span>
       <span class="bubble bubble-three"></span>
       <span class="bubble bubble-four"></span>
+      <span class="about-icon"><i class="bi"></i></span>
     </div>
 
     <div class="about-copy">
 
-      <article>
+      <article class="about-topic" data-icon="bi-people-fill" role="button" tabindex="0">
         <h2>Quem somos?</h2>
         <p>
           Somos um curso voltado a otimizar o estudo da Língua Brasileira de Sinais (LIBRAS), utilizando ferramentas tecnológicas para auxiliar o seu aprendizado.
         </p>
       </article>
 
-      <article>
+      <article class="about-topic" data-icon="bi-bullseye" role="button" tabindex="0">
         <h2>Qual o nosso objetivo?</h2>
         <p>
           Nosso objetivo é dar cada vez mais visibilidade à comunidade surda e mostrar que é possível aprender de uma forma didática e prática.
         </p>
       </article>
 
-      <article>
+      <article class="about-topic" data-icon="bi-lightbulb-fill" role="button" tabindex="0">
         <h2>Por que escolher o LibrasTech?</h2>
         <ul>
           <li>Nosso curso possui sistema de correção na mesma hora em que você executa o movimento.</li>
@@ -79,12 +80,39 @@
     </p>
 
     <div class="video-frame">
-      <video controls aria-label="Demonstração do LibrasTech"></video>
+      <video controls playsinline preload="metadata" poster="../video/librastech-demo-capa.jpg" aria-label="Demonstração do LibrasTech"
+        src="../video/librastech-demo.mp4"></video>
       <span>Adicione aqui o arquivo de vídeo da demonstração</span>
     </div>
   </section>
 
 </main>
+
+<script>
+  // Sobre: ao clicar num tópico, as bolas fazem uma animação e mostram o ícone do tópico.
+  (function () {
+    const grafico = document.querySelector(".about-graphic");
+    const icone = document.querySelector(".about-icon i");
+    const topicos = document.querySelectorAll(".about-topic");
+    if (!grafico || !icone) return;
+
+    function ativar(topico) {
+      topicos.forEach(t => t.classList.toggle("is-active", t === topico));
+      icone.className = "bi " + topico.dataset.icon;
+      grafico.classList.remove("is-active");
+      void grafico.offsetWidth; // reinicia a animação
+      grafico.classList.add("is-active");
+      if (window.innerWidth <= 700) grafico.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    topicos.forEach(topico => {
+      topico.addEventListener("click", () => ativar(topico));
+      topico.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); ativar(topico); }
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
